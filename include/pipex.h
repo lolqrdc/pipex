@@ -6,12 +6,12 @@
 /*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 18:57:41 by loribeir          #+#    #+#             */
-/*   Updated: 2025/01/29 19:33:43 by loribeir         ###   ########.fr       */
+/*   Updated: 2025/01/29 19:35:30 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /* LIBRARIES */
-# include "../include/libft.h"
+# include "../include/libft/include/libft.h"
 # include <sys/wait.h>
 # include <sys/types.h>
 # include <unistd.h>
@@ -38,4 +38,4 @@ typedef struct s_pipex
     int     **pipe_fd; /* gerer plusieurs pipes */
     t_cmd   *cmd;
     int     cmd_count;
-}
+} t_pipex;
