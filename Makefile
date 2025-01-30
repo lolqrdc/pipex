@@ -2,47 +2,48 @@
 NAME	= pipex
 
 # DIRECTORIES
-LIBFT	= ./include/libft/libft.a
-INC = ./include
+LIBFT	= ./libft/libft.a
+INC = ./include/
 SRC_DIR = srcs/
 OBJS_DIR = obj/
 
 #COMPILER & FLAGS
 CC	= cc
-CFLAGS	= -I$(INC)
+CFLAGS	= -Wall -Wextra -Werror -g
+INCFLAGS = -I$(INC) -I ./libft
 RM	= rm -f
 
 # SOURCES FILES
-SRCS = $(SRC_DIR)
+SRCS = $(SRC_DIR)commands.c \
+		$(SRC_DIR)execution.c \
+		$(SRC_DIR)initialization.c \
+		$(SRC_DIR)main.c \
+		$(SRC_DIR)utils.c \
 
 # CONNECT ALL SOURCES FILES
-OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJS_DIR)/%.o)
+OBJS = $(SRCS:$(SRC_DIR)%.c=$(OBJS_DIR)%.o)
 
 # RULES
 all: $(NAME)
 
 $(LIBFT):
-	@make -C ./include/libft
+	@make -C ./libft
 
 $(NAME): $(OBJS) $(LIBFT)
-			@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
+			@$(CC) $(CFLAGS) $(INCFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
 
-$(OBJS_DIR)/%.o: $(SRC_DIR)/%.c
-				@mkdir -p $(@D)
-				@$(CC) $(CFLAGS) -c $< -o $@
-
-$(OBJS_DIR)/%.o: $(BONUS_DIR)/%.c
-				@mkdir -p $(@D)
-				@$(CC) $(CFLAGS) -c $< -o $@
+$(OBJS_DIR)%.o: $(SRC_DIR)%.c
+				@mkdir -p $(OBJS_DIR)
+				@$(CC) $(CFLAGS) $(INCFLAGS) -c $< -o $@
 
 clean:
 	@$(RM) -r $(OBJS_DIR)
-	@make clean -C ./include/libft
+	@make clean -sC ./libft
 
 fclean: clean 
 	@$(RM) $(NAME)
-	@$(RM) $(BONUS_NAME)
+	@make fclean -C ./libft
 
 re: fclean all 
 
-.PHONY : all clean fclean re bonus
+.PHONY : all clean fclean re

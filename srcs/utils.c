@@ -6,7 +6,7 @@
 /*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 11:37:05 by loribeir          #+#    #+#             */
-/*   Updated: 2025/01/30 16:35:03 by loribeir         ###   ########.fr       */
+/*   Updated: 2025/01/30 18:28:10 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,25 +57,21 @@ char    *find_exec(t_pipex *pipex, char *cmd)
     return (find_path(pipex, cmd)); /* search l'exec dans les chemins du PATH */
 }
 
-void    close_pipes(t_pipex *pipex)
-{
-
-}
-
-void    free_pipes(t_pipex *pipex, int count)
+void    close_pipes(t_pipex *pipex, int count)
 {
     int i;
 
     i = 0;
     while (i < count)
     {
-        free(pipex->pipe_fd[i]);
+        if (pipex->pipe_fd[i])
+        {
+            close(pipex->pipe_fd[i][0]);
+            close(pipex->pipe_fd[i][1]);
+            free(pipex->pipe_fd[i]);
+        }
         i++;
     }
     free(pipex->pipe_fd);
     pipex->pipe_fd = NULL;
-}
-void    free_pipex(t_pipex *pipex)
-{
-    
 }

@@ -6,7 +6,7 @@
 /*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 10:12:22 by loribeir          #+#    #+#             */
-/*   Updated: 2025/01/30 18:05:47 by loribeir         ###   ########.fr       */
+/*   Updated: 2025/01/30 18:33:48 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,12 @@ int create_pipes(t_pipex *pipex)
         pipex->pipe_fd[i] = malloc(sizeof(int) * 2); /* x2 pcq chaque pipe a 2 fd : read & write */
         if (!pipex->pipe_fd[i])
         {
-            free_pipes(pipex, i);
+            close_pipes(pipex, i);
             return (ft_putstr_fd("Memory allocation failed\n", 2), FAIL);
         }
         if (pipe(pipex->pipe_fd[i]) == -1) /* creation d'un pipe */
         {
-            free_pipes(pipex, i + 1);
+            close_pipes(pipex, i + 1);
             return (ft_putstr_fd("Failed to create pipe\n", 2), FAIL);
         }
         i++;

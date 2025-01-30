@@ -6,7 +6,7 @@
 /*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 18:57:41 by loribeir          #+#    #+#             */
-/*   Updated: 2025/01/30 17:31:02 by loribeir         ###   ########.fr       */
+/*   Updated: 2025/01/30 18:28:12 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 # define PIPEX_H
 
 /* LIBRARIES */
-# include "../include/libft/include/libft.h"
+# include "../libft/include/libft.h" 
+# include "../libft/include/ft_printf.h"
+# include "../libft/include/get_next_line.h"
 # include <sys/wait.h>
 # include <sys/types.h>
 # include <unistd.h>
@@ -62,8 +64,7 @@ int     create_pipes(t_pipex *pipex);
 //
 char    *find_exec(t_pipex *pipex, char *cmd);
 char    *find_path(t_pipex *pipex, char *cmd);
-void    close_pipes(t_pipex *pipex);
-void    free_pipes(t_pipex *pipex, int i);
+void    close_pipes(t_pipex *pipex, int count);
 void    free_pipex(t_pipex *pipex);
 
 # endif

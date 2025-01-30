@@ -6,7 +6,7 @@
 /*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 11:35:21 by loribeir          #+#    #+#             */
-/*   Updated: 2025/01/30 17:30:01 by loribeir         ###   ########.fr       */
+/*   Updated: 2025/01/30 18:27:47 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void    exec_cmd(t_pipex *pipex, t_cmd *cmd, int index)
         dup2(pipex->out_fd, STDOUT_FILENO); /* last cmd : sortie vers outfile */
     else
         dup2(pipex->pipe_fd[index][1], STDOUT_FILENO); /* autre cmd : sortie vers le pipe suivant */
-    close_pipes(pipex); /* fermer les pipes non utilisés */
+    close_pipes(pipex, index); /* fermer les pipes non utilisés */
     exec_path = find_exec(pipex, cmd->cmds[0]); /* recherche du path de la cmd */
     if (!exec_path)
     {
