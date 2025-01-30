@@ -6,7 +6,7 @@
 /*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 18:57:41 by loribeir          #+#    #+#             */
-/*   Updated: 2025/01/30 12:03:52 by loribeir         ###   ########.fr       */
+/*   Updated: 2025/01/30 13:22:59 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct s_pipex
     t_cmd   *cmd;
     int     cmd_count;
     char    **envp;
+    char    **path;
 } t_pipex;
 
 /* FUNCTIONS */
@@ -57,7 +58,6 @@ int     open_files(t_pipex *pipex);
 int     create_pipes(t_pipex *pipex);
 //
 void    exec_cmd(t_pipex *pipex, t_cmd *cmd);
-int     launch_cmd(t_pipex);
 //
 void    close_pipes(t_pipex *pipex);
 void    free_pipes(t_pipex *pipex, int i);

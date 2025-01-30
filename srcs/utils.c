@@ -6,12 +6,19 @@
 /*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 11:37:05 by loribeir          #+#    #+#             */
-/*   Updated: 2025/01/30 12:06:10 by loribeir         ###   ########.fr       */
+/*   Updated: 2025/01/30 13:28:50 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
+char    *find_path(t_pipex *pipex, char *cmd)
+{
+    char    **full_path;
+    int     i;
+    
+    
+}
 void    close_pipes(t_pipex *pipex)
 {
 
