@@ -6,7 +6,7 @@
 /*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 18:57:41 by loribeir          #+#    #+#             */
-/*   Updated: 2025/01/30 13:22:59 by loribeir         ###   ########.fr       */
+/*   Updated: 2025/01/30 17:31:02 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 typedef struct t_cmd
 {
     char            **cmds; /* stock chaque commande + ses args */
-    struct t_cmd    *next; 
+    struct t_cmd    *next;
 } t_cmd;
 
 typedef struct s_pipex
@@ -53,12 +53,15 @@ typedef struct s_pipex
 int     parse_args(int ac, char **av, t_pipex *pipex);
 int     add_cmd(t_pipex *pipex, char **cmd);
 //
+int     create_processes(t_pipex *pipex);
+void    exec_cmd(t_pipex *pipex, t_cmd *cmd, int index);
+//
 void    init_pipex(int argc, char **argv, t_pipex *pipex);
 int     open_files(t_pipex *pipex);
 int     create_pipes(t_pipex *pipex);
 //
-void    exec_cmd(t_pipex *pipex, t_cmd *cmd);
-//
+char    *find_exec(t_pipex *pipex, char *cmd);
+char    *find_path(t_pipex *pipex, char *cmd);
 void    close_pipes(t_pipex *pipex);
 void    free_pipes(t_pipex *pipex, int i);
 void    free_pipex(t_pipex *pipex);
