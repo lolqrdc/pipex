@@ -6,7 +6,7 @@
 /*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 18:57:41 by loribeir          #+#    #+#             */
-/*   Updated: 2025/01/30 18:28:12 by loribeir         ###   ########.fr       */
+/*   Updated: 2025/01/31 11:48:26 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,12 @@ typedef struct t_cmd
     struct t_cmd    *next;
 } t_cmd;
 
+/* liste chaînée pour l'environnement permet de facilement copier, parcourir l'ensemble des variable d'envp */
+typedef struct t_envp
+{
+    char            *path;
+    struct t_envp   *next;   
+} t_envp;
 typedef struct s_pipex
 {
     char    *infile;
@@ -47,24 +53,32 @@ typedef struct s_pipex
     int     **pipe_fd; /* gerer plusieurs pipes */
     t_cmd   *cmd;
     int     cmd_count;
-    char    **envp;
-    char    **path;
+    t_envp  *envp;
 } t_pipex;
 
-/* FUNCTIONS */
+/* MAIN */
+int main(int argc, char **argv);
+
+/* PARSING */
 int     parse_args(int ac, char **av, t_pipex *pipex);
 int     add_cmd(t_pipex *pipex, char **cmd);
-//
+
+/* ENVP */
+int     count_envp(t_envp *envp);
+char    **convert_envp(t_envp *envp_list);
+void    add_envp(t_pipex *pipex, const char *envp);
+void    free_envp(t_envp *envp);
+
+/* EXEC */
 int     create_processes(t_pipex *pipex);
 void    exec_cmd(t_pipex *pipex, t_cmd *cmd, int index);
-//
-void    init_pipex(int argc, char **argv, t_pipex *pipex);
-int     open_files(t_pipex *pipex);
-int     create_pipes(t_pipex *pipex);
-//
 char    *find_exec(t_pipex *pipex, char *cmd);
 char    *find_path(t_pipex *pipex, char *cmd);
 void    close_pipes(t_pipex *pipex, int count);
-void    free_pipex(t_pipex *pipex);
+
+/* INIT */
+void    init_pipex(int argc, char **argv, t_pipex *pipex);
+int     open_files(t_pipex *pipex);
+int     create_pipes(t_pipex *pipex);
 
 # endif

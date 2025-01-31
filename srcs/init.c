@@ -6,7 +6,7 @@
 /*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 10:12:22 by loribeir          #+#    #+#             */
-/*   Updated: 2025/01/30 18:33:48 by loribeir         ###   ########.fr       */
+/*   Updated: 2025/01/31 11:21:21 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,11 @@ void    init_pipex(int argc, char **argv, t_pipex *pipex)
     pipex->outfile = argv[argc - 1]; /* outfile sera toujours l'avant dernier */
     pipex->inf_fd = -1; /* indiquer qu'aucun fichier n'est encore ouvert */
     pipex->out_fd = -1; /* ou pas encore assigné */
-    pipex->pids = NULL;
+    pipex->pids = malloc(sizeof(pid_t) *);
     pipex->pipe_fd = NULL;
     pipex->cmd = NULL;
     pipex->cmd_count = 0;
+    pipex->envp = NULL;
 }
 
 int open_files(t_pipex *pipex)
@@ -64,4 +65,3 @@ int create_pipes(t_pipex *pipex)
     }
     return (SUCCESS);
 }
-
