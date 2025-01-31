@@ -14,11 +14,10 @@ INCFLAGS = -I$(INC) -I ./libft
 RM	= rm -f
 
 # SOURCES FILES
-SRCS = $(SRC_DIR)envp.c \
+SRCS = $(SRC_DIR)parsing.c \
 		$(SRC_DIR)exec.c \
 		$(SRC_DIR)init.c \
 		$(SRC_DIR)main.c \
-		$(SRC_DIR)parsing.c \
 
 # CONNECT ALL SOURCES FILES
 OBJS = $(SRCS:$(SRC_DIR)%.c=$(OBJS_DIR)%.o)

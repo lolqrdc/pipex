@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   commands.c                                         :+:      :+:    :+:   */
+/*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 09:32:48 by loribeir          #+#    #+#             */
-/*   Updated: 2025/01/31 10:01:25 by loribeir         ###   ########.fr       */
+/*   Updated: 2025/01/31 13:39:14 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,3 +57,40 @@ int add_cmd(t_pipex *pipex, char **cmd)
     pipex->cmd_count++;
     return (SUCCESS);
 }
+
+void free_pipex(t_pipex *pipex)
+{
+    int i;
+    t_cmd *current;
+    t_cmd *next;
+
+    if (pipex)
+    {
+        if (pipex->pids)
+            free(pipex->pids);
+        if (pipex->pipe_fd)
+        {
+            i = 0;
+            while (i < pipex->cmd_count - 1)
+                free(pipex->pipe_fd[i++]);
+            free(pipex->pipe_fd);
+        }
+        current = pipex->cmd;
+        while (current)
+        {
+            next = current->next;
+            free(current->cmds);
+            free(current);
+            current = next;
+        }
+        if (pipex->path)
+        {
+            i = 0;
+            while (pipex->path[i])
+                free(pipex->path[i++]);
+            free(pipex->path);
+        }
+        free(pipex);
+    }
+}
+

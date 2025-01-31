@@ -6,7 +6,7 @@
 /*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 11:35:21 by loribeir          #+#    #+#             */
-/*   Updated: 2025/01/31 11:51:11 by loribeir         ###   ########.fr       */
+/*   Updated: 2025/01/31 13:58:54 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,13 @@ int     create_processes(t_pipex *pipex)
             exec_cmd(pipex, current_cmd, i);
             exit(127);
         }
+        else
+        {
+            if (i > 0)
+                close(pipex->pipe_fd[i-1][0]);
+            if (i < pipex->cmd_count - 1)
+                close(pipex->pipe_fd[i][1]);
+        }
         current_cmd = current_cmd->next; /* passage a la cmd suivante pour le parent */
         i++;
     }
@@ -41,8 +48,9 @@ int     create_processes(t_pipex *pipex)
 void    exec_cmd(t_pipex *pipex, t_cmd *cmd, int index)
 {
     char    *exec_path;
-    char    **envp;
 
+    close(pipex->inf_fd);
+    close(pipex->out_fd);
     if (index == 0)
         dup2(pipex->inf_fd, STDIN_FILENO); /* 1er cmd : entree depuis infile */
     else
@@ -59,14 +67,11 @@ void    exec_cmd(t_pipex *pipex, t_cmd *cmd, int index)
         ft_putstr_fd("Command not found.\n", 2);
         exit(127);
     }
-    envp = convert_envp(pipex->envp); /* convertir la liste chainée en tableau */
-    execve(exec_path, cmd->cmds, envp); /* execution de la commande */
+    execve(exec_path, cmd->cmds, pipex->envp); /* execution de la commande */
     perror(cmd->cmds[0]);
     free(exec_path);
-    free(envp);
     exit(127);
 }
-
 
 /* Parcourt les chemins PATH et verifie l'existence de l'executable */
 char    *find_path(t_pipex *pipex, char *cmd)
@@ -96,21 +101,20 @@ char    *find_path(t_pipex *pipex, char *cmd)
 }
 char    *find_exec(t_pipex *pipex, char *cmd)
 {
-    t_envp  *tmp;
-    char    *path_count;
-    
+    int i;
+
+    i = 0;
     if (!pipex->path) 
     {
-        tmp = pipex->envp;
-        while (tmp)
+        while (pipex->envp[i])
         {
-            if (ft_strncmp(tmp->path, "PATH=", 5) == 0) /* search PATH dans l'environnement */
+            if (ft_strncmp(pipex->envp[i], "PATH=", 5) == 0) /* search PATH dans l'environnement */
             {
-                pipex->path = ft_split(tmp->path + 5, ':');
+                pipex->path = ft_split(pipex->envp[i] + 5, ':');
                 if (!pipex->path)
                     return (NULL); /* si aucun PATH est trouvé */
             }
-            tmp = tmp->next;
+            i++;
         }
     }
     return (find_path(pipex, cmd)); /* search l'exec dans les chemins du PATH */
@@ -121,18 +125,14 @@ void    close_pipes(t_pipex *pipex, int count)
     int i;
 
     i = 0;
-    while (i < count)
+    while (i < pipex->cmd_count - 1)
     {
-        if (pipex->pipe_fd[i])
-        {
-            close(pipex->pipe_fd[i][0]);
+        if (i != count - 1)
             close(pipex->pipe_fd[i][1]);
-            free(pipex->pipe_fd[i]);
-        }
+        if (i != count)
+            close(pipex->pipe_fd[i][0]);
         i++;
     }
-    free(pipex->pipe_fd);
-    pipex->pipe_fd = NULL;
 }
 
 

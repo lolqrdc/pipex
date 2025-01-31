@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   initialization.c                                   :+:      :+:    :+:   */
+/*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 10:12:22 by loribeir          #+#    #+#             */
-/*   Updated: 2025/01/31 11:21:21 by loribeir         ###   ########.fr       */
+/*   Updated: 2025/01/31 13:21:09 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void    init_pipex(int argc, char **argv, t_pipex *pipex)
+void    init_pipex(int argc, char **argv, char **envp, t_pipex *pipex)
 {
     if (argc < 5)
     {
@@ -23,11 +23,12 @@ void    init_pipex(int argc, char **argv, t_pipex *pipex)
     pipex->outfile = argv[argc - 1]; /* outfile sera toujours l'avant dernier */
     pipex->inf_fd = -1; /* indiquer qu'aucun fichier n'est encore ouvert */
     pipex->out_fd = -1; /* ou pas encore assigné */
-    pipex->pids = malloc(sizeof(pid_t) *);
     pipex->pipe_fd = NULL;
-    pipex->cmd = NULL;
     pipex->cmd_count = 0;
-    pipex->envp = NULL;
+    pipex->cmd = NULL;
+    pipex->pids = malloc(sizeof(pid_t) * pipex->cmd_count);
+    pipex->envp = envp;
+    pipex->path = NULL;
 }
 
 int open_files(t_pipex *pipex)
