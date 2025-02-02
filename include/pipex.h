@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lolq <lolq@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 14:09:29 by loribeir          #+#    #+#             */
-/*   Updated: 2025/02/01 14:38:22 by loribeir         ###   ########.fr       */
+/*   Updated: 2025/02/02 23:23:05 by lolq             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,16 +38,24 @@ typedef struct t_pipex
     int     in_fd;
     char    *outfile;
     int     out_fd;
-    t_cmd   *cmd; /* gerer [x] cmd */
-    int     count_cmd; /* nb total de cmd exec dans la pipeline */
-    int     **pipes_fd; /* stocker les fd des pipes */
-    pid_t   *pids; /* stocker les pids des processus enfant */
-    char    *path; /* stocker le path des cmd */
+    t_cmd   *cmd;
+    int     count_cmd;
+    int     **pipes_fd;
+    pid_t   *pids;
+    char    **path;
     bool     here_doc;
 } t_pipex;
 
+
 /* FUNCTIONS */
-void    ft_init_pipex(t_pipex *pipex, int ac, char **av);
-
-
+int     ft_init_pipex(t_pipex *pipex, int ac, char **av);
+t_cmd   *cmd_list(char **av, int start, int end);
+t_cmd   *create_cmd(char *cmd);
+void    add_cmd(t_cmd **head, t_cmd *new_cmd);
+void    free_cmd_list(t_cmd *head);
+bool    ft_parse_args(t_pipex *pipex, int ac, char **av);
+char    *search_path(char **paths, char *cmd);
+char    *find_executable(char *cmd, char **envp);
+bool    add_paths(t_pipex *pipex, char **envp);
+void    free_tab(char **tab);
 #endif

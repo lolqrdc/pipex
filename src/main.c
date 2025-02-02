@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lolq <lolq@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/31 14:50:27 by loribeir          #+#    #+#             */
-/*   Updated: 2025/02/01 14:45:18 by loribeir         ###   ########.fr       */
+/*   Created: 2025/02/02 18:43:44 by lolq              #+#    #+#             */
+/*   Updated: 2025/02/02 23:12:35 by lolq             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,12 @@
 int main(int argc, char **argv, char **envp)
 {
     t_pipex *pipex;
-    int     i;
 
     pipex = malloc(sizeof(t_pipex));
-    if (!pipex)
-        return (EXIT_FAILURE);
     ft_init_pipex(pipex, argc, argv);
+    if (!ft_parse_args(pipex, argc, argv))
+        return (1);
+    if (!add_paths(pipex, envp))
+        return (1);
+    return (0);
 }
