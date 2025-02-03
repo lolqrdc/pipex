@@ -6,7 +6,7 @@
 /*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 07:46:38 by loribeir          #+#    #+#             */
-/*   Updated: 2025/02/03 13:33:32 by loribeir         ###   ########.fr       */
+/*   Updated: 2025/02/03 14:05:38 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,9 @@ void    ft_execute(t_pipex *pipex, char **envp)
         return ;
     while (i < pipex->count_cmd)
     {
-        printf("%d\n", i);
         handle_fork(pipex, envp, i);
         if (pipex->cmd->next != NULL)
             pipex->cmd = pipex->cmd->next;
-        printf("%d\n", i);
         i++;
     }
     wait_children(pipex);
@@ -58,30 +56,38 @@ int **create_pipes(t_pipex *pipex)
     int **pipes;
     int i;
 
-    pipes = malloc(sizeof(int *)* pipex->count_cmd - 1);
-    if (!pipes)
-        return (NULL);
-    i = 0;
-    while (i < pipex->count_cmd - 1)
-    {
-        pipes[i] = malloc(sizeof(int)* 2);
-        if (!pipes[i])
-        {
-            while (--i >= 0)
-                free(pipes[i]);
-            return(free(pipes), NULL);
-        }
-        if (pipe(pipes[i]) < 0)
-        {
-            perror("pipe");
+    if (pipex->count_cmd <= 1) {
+        fprintf(stderr, "Erreur : Nombre de commandes insuffisant\n");
+        return NULL;
+    }
+
+    pipes = malloc(sizeof(int *) * (pipex->count_cmd - 1));
+    if (!pipes) {
+        perror("malloc");
+        return NULL;
+    }
+
+    for (i = 0; i < pipex->count_cmd; i++) {
+        pipes[i] = malloc(sizeof(int) * 2);
+        if (!pipes[i]) {
+            perror("malloc");
             while (--i >= 0)
                 free(pipes[i]);
             free(pipes);
-            return(NULL);
+            return NULL;
         }
-        i++;
+        if (pipe(pipes[i]) < 0) {
+            perror("pipe");
+            while (i >= 0) {
+                free(pipes[i]);
+                i--;
+            }
+            free(pipes);
+            return NULL;
+        }
+        printf("Pipe %d créé : [%d, %d]\n", i, pipes[i][0], pipes[i][1]);
     }
-    return (pipes);
+    return pipes;
 }
 
 void    close_pipes(t_pipex *pipex)

@@ -6,7 +6,7 @@
 /*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 18:43:44 by lolq              #+#    #+#             */
-/*   Updated: 2025/02/03 13:07:01 by loribeir         ###   ########.fr       */
+/*   Updated: 2025/02/03 14:02:23 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,37 @@ void print_commands(t_pipex *pipex)
     }
 }
 
+void print_pipes(t_pipex *pipex)
+{
+    if (!pipex || !pipex->pipes_fd)
+    {
+        printf("Aucun pipe à afficher.\n");
+        return;
+    }
+
+    printf("Pipes :\n");
+    for (int i = 0; i < pipex->count_cmd - 1; i++)
+    {
+        if (pipex->pipes_fd[i])
+        {
+            printf("Pipe %d : [%d, %d]", i, pipex->pipes_fd[i][0], pipex->pipes_fd[i][1]);
+            if (fcntl(pipex->pipes_fd[i][0], F_GETFD) != -1)
+                printf(" (lecture ouvert)");
+            else
+                printf(" (lecture fermé)");
+            
+            if (fcntl(pipex->pipes_fd[i][1], F_GETFD) != -1)
+                printf(" (écriture ouvert)");
+            else
+                printf(" (écriture fermé)");
+            printf("\n");
+        }
+        else
+        {
+            printf("Pipe %d : NULL\n", i);
+        }
+    }
+}
 
 int main(int argc, char **argv, char **envp)
 {
@@ -59,5 +90,6 @@ int main(int argc, char **argv, char **envp)
         return (1);
     open_files(pipex);
     ft_execute(pipex, envp);
+    print_pipes(pipex);
     return (0);
 }

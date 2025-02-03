@@ -6,7 +6,7 @@
 /*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 09:36:19 by loribeir          #+#    #+#             */
-/*   Updated: 2025/02/03 13:44:21 by loribeir         ###   ########.fr       */
+/*   Updated: 2025/02/03 14:05:59 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,17 @@ void    child_process(t_pipex *pipex, char **envp, int i)
 {
     if (i == 0) // first processus
     {
-        printf("sa mere\n");
         dup2(pipex->in_fd, STDIN_FILENO);
         dup2(pipex->pipes_fd[i][1], STDOUT_FILENO);
     }
     else if (i == pipex->count_cmd - 1) // last processus
     {
-        printf("tg\n");
-        dup2(pipex->pipes_fd[i-1][0], STDIN_FILENO);
+        dup2(pipex->pipes_fd[i][0], STDIN_FILENO);
         dup2(pipex->out_fd, STDOUT_FILENO);
     }
     else // inter processus
     {
-        printf("ouioui\n");
-        dup2(pipex->pipes_fd[i-1][0], STDIN_FILENO);
+        dup2(pipex->pipes_fd[i][0], STDIN_FILENO);
         dup2(pipex->pipes_fd[i][1], STDOUT_FILENO);
     }
     close_all_pipes(pipex);
@@ -61,7 +58,6 @@ int    wait_children(t_pipex *pipex)
         if(WIFEXITED(status))
             last_st = WEXITSTATUS(status);
         i++;
-        printf("sleep pas\n");
     }
     return (last_st);
 }
