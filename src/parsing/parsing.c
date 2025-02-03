@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lolq <lolq@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 18:41:58 by lolq              #+#    #+#             */
-/*   Updated: 2025/02/02 23:22:54 by lolq             ###   ########.fr       */
+/*   Updated: 2025/02/03 08:04:25 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
  * @brief Check if there is enough args and if the 1st arg is "here_doc".
  * The program will work differently according to the 1st arg.
  * Will seach for the commands in the PATH and store them in the structure.
+ * Handle the files (infile & outfile).
  */
 bool    ft_parse_args(t_pipex *pipex, int ac, char **av)
 {
@@ -73,7 +74,7 @@ char    *find_executable(char *cmd, char **envp)
         {
             paths = ft_split(envp[i] + 5, ':');
             if (!paths)
-                return (NULL);
+                return (ft_putstr_fd("Error: PATH not found\n", 2), NULL);
             exec_path = search_path(paths, cmd);
             free_tab(paths);
             return (exec_path);
@@ -98,8 +99,8 @@ bool    add_paths(t_pipex *pipex, char **envp)
         if (!pipex->path[i])
         {
             ft_putstr_fd("Error: Command not found\n", 2);
-            while (i >= 0)
-                free(pipex->path[--i]);
+            while (--i >= 0)
+                free(pipex->path[i]);
             free(pipex->path);
             pipex->path = NULL;
             return (false);
@@ -110,12 +111,14 @@ bool    add_paths(t_pipex *pipex, char **envp)
     pipex->path[i] = NULL;
     return (true);
 }
-void free_tab(char **tab)
-{
-    int i;
 
-    i = 0;
-    while (tab[i])
-        free(tab[i++]);
-    free(tab);
+int open_files(t_pipex *pipex)
+{
+    pipex->in_fd = open(pipex->infile, O_RDONLY);
+    if (pipex->in_fd < 0)
+        return(ft_putstr_fd("Error: impossible to open the infile\n", 2), 1);
+    pipex->out_fd = open(pipex->outfile, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+    if (pipex->out_fd < 0)
+        return (ft_putstr_fd("Error: impossible to open or create the outfile\n", 2), 1);
+    return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lolq <lolq@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 14:09:29 by loribeir          #+#    #+#             */
-/*   Updated: 2025/02/02 23:23:05 by lolq             ###   ########.fr       */
+/*   Updated: 2025/02/03 10:34:48 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,15 +47,31 @@ typedef struct t_pipex
 } t_pipex;
 
 
-/* FUNCTIONS */
+/* INIT */
 int     ft_init_pipex(t_pipex *pipex, int ac, char **av);
 t_cmd   *cmd_list(char **av, int start, int end);
 t_cmd   *create_cmd(char *cmd);
 void    add_cmd(t_cmd **head, t_cmd *new_cmd);
-void    free_cmd_list(t_cmd *head);
+
+/* PARSING */
 bool    ft_parse_args(t_pipex *pipex, int ac, char **av);
 char    *search_path(char **paths, char *cmd);
 char    *find_executable(char *cmd, char **envp);
 bool    add_paths(t_pipex *pipex, char **envp);
+int     open_files(t_pipex *pipex);
+
+/* EXECUTION */
+void    ft_execute(t_pipex *pipex, char **envp);
+int     handle_fork(t_pipex *pipex, char **envp, int i);
+int     **create_pipes(t_pipex *pipex);
+void    close_pipes(t_pipex *pipex);
+//
+void    child_process(t_pipex *pipex, char **envp, int i);
+void    execute_cmd(t_pipex *pipex, t_cmd *cmd, char **envp, int i);
+void    wait_children(t_pipex *pipex);
+
+/* UTILS */
 void    free_tab(char **tab);
+void    free_cmd_list(t_cmd *head);
+
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lolq <lolq@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 21:41:06 by lolq              #+#    #+#             */
-/*   Updated: 2025/02/02 23:05:55 by lolq             ###   ########.fr       */
+/*   Updated: 2025/02/03 07:33:45 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@ int ft_init_pipex(t_pipex *pipex, int ac, char **av)
     pipex->out_fd = -1;
     pipex->count_cmd = ac - 3;
     pipex->cmd = NULL;
-    if (pipex->cmd == NULL)
-        return (1);
     pipex->pipes_fd = NULL;
     pipex->pids = NULL;
     pipex->path = NULL;
@@ -84,22 +82,3 @@ void    add_cmd(t_cmd **head, t_cmd *new_cmd)
     tmp->next = new_cmd;
 }
 
-void    free_cmd_list(t_cmd *head)
-{
-    t_cmd   *tmp;
-    int     i;
-
-    while (head != NULL)
-    {
-        tmp = head;
-        head = head->next;
-        i = 0;
-        while (tmp->cmd[i] != NULL)
-        {
-            free(tmp->cmd[i]);
-            i++;
-        }
-        free(tmp->cmd);
-        free(tmp);
-    }
-}
