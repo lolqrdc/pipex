@@ -6,7 +6,7 @@
 /*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 07:32:29 by loribeir          #+#    #+#             */
-/*   Updated: 2025/02/03 15:44:06 by loribeir         ###   ########.fr       */
+/*   Updated: 2025/02/03 18:23:31 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,17 +55,7 @@ void    ft_cleanup(t_pipex *pipex)
     if (pipex == NULL)
         return ;
     if (pipex->pipes_fd != NULL)
-    {
-        while (i < pipex->count_cmd - 1)
-        {
-            if (pipex->pipes_fd[i] != NULL)
-            {
-                close(pipex->pipes_fd[i][0]);
-                close(pipex->pipes_fd[i][1]);
-                free(pipex->pipes_fd[i]);
-            }
-            i++;
-        }
-        free(pipex->pipes_fd);
-    }
+        close_all_pipes(pipex);
+    free(pipex->pids);
+    free(pipex);
 }

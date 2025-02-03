@@ -6,7 +6,7 @@
 /*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 07:46:38 by loribeir          #+#    #+#             */
-/*   Updated: 2025/02/03 17:34:02 by loribeir         ###   ########.fr       */
+/*   Updated: 2025/02/03 18:26:59 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,21 +19,22 @@
 void    ft_execute(t_pipex *pipex, char **envp)
 {
     int     i;
+    t_cmd   *current;
     
     i = 0;
+    current = pipex->cmd;
     pipex->pipes_fd = create_pipes(pipex);
     if (!pipex->pipes_fd)
         return ;
     while (i < pipex->count_cmd)
     {
+        pipex->cmd = current;
         handle_fork(pipex, envp, i);
-        if (pipex->cmd->next != NULL)
-            pipex->cmd = pipex->cmd->next;
+        current = current->next;
         i++;
     }
+    close_all_pipes(pipex);
     wait_children(pipex);
-    close_pipes(pipex);
-    //ft_cleanup(pipex);
 }
 int handle_fork(t_pipex *pipex, char **envp, int i)
 {
@@ -89,16 +90,20 @@ int **create_pipes(t_pipex *pipex)
     return pipes;
 }
 
-void    close_pipes(t_pipex *pipex)
+/* Close if error case or end of the program */
+void    close_all_pipes(t_pipex *pipex)
 {
     int i;
 
     i = 0;
     while (i < pipex->count_cmd - 1)
     {
-        close(pipex->pipes_fd[i][0]);
-        close(pipex->pipes_fd[i][1]);
-        free(pipex->pipes_fd[i]);
+        if (pipex->pipes_fd[i] != NULL)
+        {
+            close(pipex->pipes_fd[i][0]);
+            close(pipex->pipes_fd[i][1]);
+            free(pipex->pipes_fd[i]);    
+        }
         i++;
     }
     free(pipex->pipes_fd);

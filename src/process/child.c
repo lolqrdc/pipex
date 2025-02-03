@@ -6,7 +6,7 @@
 /*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 09:36:19 by loribeir          #+#    #+#             */
-/*   Updated: 2025/02/03 17:29:26 by loribeir         ###   ########.fr       */
+/*   Updated: 2025/02/03 18:08:43 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void    child_process(t_pipex *pipex, char **envp, int i)
 {
+    close_all_pipes_except_current(pipex, i);
     if (i == 0) // first processus
     {
         dup2(pipex->in_fd, STDIN_FILENO);
@@ -45,6 +46,7 @@ void    execute_cmd(t_pipex *pipex, t_cmd *cmd, char **envp, int i)
     perror("execve");
     exit(EXIT_FAILURE);
 }
+
 int    wait_children(t_pipex *pipex)
 {
     int last_status;
@@ -67,15 +69,21 @@ int    wait_children(t_pipex *pipex)
     return (last_status);
 }
 
-void    close_all_pipes(t_pipex *pipex)
+void    close_all_pipes_except_current(t_pipex *pipex, int i)
 {
-    int i;
+    int j;
 
-    i = 0;
-    while (i < pipex->count_cmd - 1)
+    j = 0;
+    while (j < pipex->count_cmd - 1)
     {
-        close(pipex->pipes_fd[i][0]);
-        close(pipex->pipes_fd[i][1]);
-        i++;
+        if (j != i)
+            close(pipex->pipes_fd[j][1]);
+        if (j != i - 1)
+            close(pipex->pipes_fd[j][0]);
+        j++;
     }
+    if (i != 0)
+        close(pipex->in_fd);
+    if (i != pipex->count_cmd - 1)
+        close(pipex->out_fd);
 }
