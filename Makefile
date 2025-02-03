@@ -17,7 +17,9 @@ RM	= rm -f
 SRCS = $(SRC_DIR)main.c \
 		$(SRC_DIR)init.c \
 		$(SRC_DIR)parsing.c \
-
+		$(SRC_DIR)child.c \
+		$(SRC_DIR)exec.c \
+		$(SRC_DIR)cleanup.c \
 
 # CONNECT ALL SOURCES FILES
 OBJS = $(SRCS:$(SRC_DIR)%.c=$(OBJS_DIR)%.o)
