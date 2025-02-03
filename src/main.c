@@ -6,7 +6,7 @@
 /*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 18:43:44 by lolq              #+#    #+#             */
-/*   Updated: 2025/02/03 18:21:11 by loribeir         ###   ########.fr       */
+/*   Updated: 2025/02/03 18:31:18 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,14 +81,22 @@ void print_pipes(t_pipex *pipex)
 int main(int argc, char **argv, char **envp)
 {
     t_pipex *pipex;
-
     pipex = malloc(sizeof(t_pipex));
-    ft_init_pipex(pipex, argc, argv);
+    if (!pipex)
+        return (1);
+        
+    if (ft_init_pipex(pipex, argc, argv) != 0)
+        return (ft_cleanup(pipex), 1);
+        
     if (!ft_parse_args(pipex, argc, argv))
         return (ft_cleanup(pipex), 1);
+        
     if (!add_paths(pipex, envp))
         return (ft_cleanup(pipex), 1);
-    open_files(pipex);
+        
+    if (open_files(pipex) != 0)
+        return (ft_cleanup(pipex), 1);
+        
     ft_execute(pipex, envp);
     ft_cleanup(pipex);
     return (0);

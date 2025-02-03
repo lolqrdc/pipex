@@ -6,7 +6,7 @@
 /*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 21:41:06 by lolq              #+#    #+#             */
-/*   Updated: 2025/02/03 15:34:36 by loribeir         ###   ########.fr       */
+/*   Updated: 2025/02/03 18:34:08 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ t_cmd   *cmd_list(char **av, int start, int end)
         i++;
         add_cmd(&head, new_cmd);
     }
+    free_cmd_list(new_cmd);
     return (head);
 }
 

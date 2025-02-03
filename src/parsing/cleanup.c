@@ -6,7 +6,7 @@
 /*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 07:32:29 by loribeir          #+#    #+#             */
-/*   Updated: 2025/02/03 18:23:31 by loribeir         ###   ########.fr       */
+/*   Updated: 2025/02/03 18:36:16 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,33 +29,52 @@ void    free_tab(char **tab)
 
 void    free_cmd_list(t_cmd *head)
 {
-    t_cmd   *tmp;
+    t_cmd   *current;
+    t_cmd   *next;
     int     i;
-
-    while (head != NULL)
+    current = head;
+    while (current != NULL)
     {
-        tmp = head;
-        head = head->next;
-        i = 0;
-        while (tmp->cmd[i] != NULL)
+        next = current->next;
+        if (current->cmd)
         {
-            free(tmp->cmd[i]);
-            i++;
+            i = 0;
+            while (current->cmd[i])
+            {
+                free(current->cmd[i]);
+                i++;
+            }
+            free(current->cmd);
+            current->cmd = NULL;
         }
-        free(tmp->cmd);
-        free(tmp);
+        free(current);
+        current = next;
     }
 }
 
 void    ft_cleanup(t_pipex *pipex)
 {
-    int i;
-
-    i = 0;
     if (pipex == NULL)
         return ;
-    if (pipex->pipes_fd != NULL)
-        close_all_pipes(pipex);
-    free(pipex->pids);
+    if (pipex->path)
+    {
+        free_tab(pipex->path);
+        pipex->path = NULL;
+    }
+    if (pipex->cmd)
+    {
+        free_cmd_list(pipex->cmd);
+        pipex->cmd = NULL;
+    }
+    if (pipex->in_fd != -1)
+        close(pipex->in_fd);
+    if (pipex->out_fd != -1)
+        close(pipex->out_fd);
+    if (pipex->pids)
+    {
+        free(pipex->pids);
+        pipex->pids = NULL;
+    }
     free(pipex);
 }
+

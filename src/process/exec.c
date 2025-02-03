@@ -6,7 +6,7 @@
 /*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 07:46:38 by loribeir          #+#    #+#             */
-/*   Updated: 2025/02/03 18:26:59 by loribeir         ###   ########.fr       */
+/*   Updated: 2025/02/03 18:31:43 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,17 +94,21 @@ int **create_pipes(t_pipex *pipex)
 void    close_all_pipes(t_pipex *pipex)
 {
     int i;
-
     i = 0;
+    if (!pipex || !pipex->pipes_fd)
+        return;
+        
     while (i < pipex->count_cmd - 1)
     {
-        if (pipex->pipes_fd[i] != NULL)
+        if (pipex->pipes_fd[i])
         {
             close(pipex->pipes_fd[i][0]);
             close(pipex->pipes_fd[i][1]);
-            free(pipex->pipes_fd[i]);    
+            free(pipex->pipes_fd[i]);
+            pipex->pipes_fd[i] = NULL;
         }
         i++;
     }
     free(pipex->pipes_fd);
+    pipex->pipes_fd = NULL;
 }
