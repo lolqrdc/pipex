@@ -6,7 +6,7 @@
 /*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 09:36:19 by loribeir          #+#    #+#             */
-/*   Updated: 2025/02/03 15:27:32 by loribeir         ###   ########.fr       */
+/*   Updated: 2025/02/03 17:29:26 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ int    wait_children(t_pipex *pipex)
     i = 0;
     while (i < pipex->count_cmd)
     {
+        printf("%d\n", i);
         if (waitpid(pipex->pids[i], &status, 0) == -1)
         {
             perror("waitpid failed\n");

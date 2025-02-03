@@ -6,7 +6,7 @@
 /*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 07:46:38 by loribeir          #+#    #+#             */
-/*   Updated: 2025/02/03 15:30:06 by loribeir         ###   ########.fr       */
+/*   Updated: 2025/02/03 17:34:02 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ int **create_pipes(t_pipex *pipex)
             free(pipes);
             return NULL;
         }
-        printf("Pipe %d créé : [%d, %d]\n", i, pipes[i][0], pipes[i][1]);
     }
     return pipes;
 }
