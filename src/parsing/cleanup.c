@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 07:32:29 by loribeir          #+#    #+#             */
-/*   Updated: 2025/02/03 08:05:19 by loribeir         ###   ########.fr       */
+/*   Updated: 2025/02/03 13:23:52 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,5 +49,14 @@ void    free_cmd_list(t_cmd *head)
 
 void    ft_cleanup(t_pipex *pipex)
 {
+    int i;
 
+    i = 0;
+    while (i < pipex->count_cmd)
+    {
+        close(pipex->pipes_fd[i][0]);
+        close(pipex->pipes_fd[i][1]);
+        free(pipex->pipes_fd[i]);
+    }
+    free(pipex->pipes_fd);
 }

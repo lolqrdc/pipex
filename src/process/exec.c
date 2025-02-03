@@ -6,7 +6,7 @@
 /*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 07:46:38 by loribeir          #+#    #+#             */
-/*   Updated: 2025/02/03 11:03:12 by loribeir         ###   ########.fr       */
+/*   Updated: 2025/02/03 13:33:32 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,23 +18,24 @@
 
 void    ft_execute(t_pipex *pipex, char **envp)
 {
-    t_cmd   *command;
     int     i;
     
     i = 0;
-    command = pipex->cmd;
     pipex->pipes_fd = create_pipes(pipex);
     if (!pipex->pipes_fd)
         return ;
     while (i < pipex->count_cmd)
     {
-        handle_fork(pipex, envp, i);            
-        command = command->next;
+        printf("%d\n", i);
+        handle_fork(pipex, envp, i);
+        if (pipex->cmd->next != NULL)
+            pipex->cmd = pipex->cmd->next;
+        printf("%d\n", i);
         i++;
     }
     wait_children(pipex);
     close_pipes(pipex);
-    ft_cleanup(pipex);
+    //ft_cleanup(pipex);
 }
 int handle_fork(t_pipex *pipex, char **envp, int i)
 {

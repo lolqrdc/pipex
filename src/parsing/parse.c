@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 18:41:58 by lolq              #+#    #+#             */
-/*   Updated: 2025/02/03 08:04:25 by loribeir         ###   ########.fr       */
+/*   Updated: 2025/02/03 12:55:22 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ bool    ft_parse_args(t_pipex *pipex, int ac, char **av)
         if (ac < 6)
             return (ft_putstr_fd("Error: Not enough arguments\n", 2), false);
     }
-    pipex->cmd = cmd_list(av, 2, ac - 2);
+    pipex->cmd = cmd_list(av, 2, ac - 1);
     if (pipex->cmd == NULL)
         return (false);
     return (true);
