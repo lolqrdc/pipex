@@ -6,7 +6,7 @@
 /*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 21:41:06 by lolq              #+#    #+#             */
-/*   Updated: 2025/02/03 13:19:23 by loribeir         ###   ########.fr       */
+/*   Updated: 2025/02/03 15:34:36 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int ft_init_pipex(t_pipex *pipex, int ac, char **av)
     pipex->outfile = av[ac - 1];
     pipex->in_fd = -1;
     pipex->out_fd = -1;
-    pipex->count_cmd = ac - 2;
+    pipex->count_cmd = ac - 3;
     pipex->cmd = NULL;
     pipex->pipes_fd = NULL;
     pipex->pids = malloc(sizeof(pid_t) * pipex->count_cmd);

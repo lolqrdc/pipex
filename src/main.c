@@ -6,7 +6,7 @@
 /*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 18:43:44 by lolq              #+#    #+#             */
-/*   Updated: 2025/02/03 14:02:23 by loribeir         ###   ########.fr       */
+/*   Updated: 2025/02/03 15:46:32 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,5 @@ int main(int argc, char **argv, char **envp)
         return (1);
     open_files(pipex);
     ft_execute(pipex, envp);
-    print_pipes(pipex);
     return (0);
 }

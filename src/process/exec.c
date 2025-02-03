@@ -6,7 +6,7 @@
 /*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 07:46:38 by loribeir          #+#    #+#             */
-/*   Updated: 2025/02/03 14:05:38 by loribeir         ###   ########.fr       */
+/*   Updated: 2025/02/03 15:30:06 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int **create_pipes(t_pipex *pipex)
         return NULL;
     }
 
-    for (i = 0; i < pipex->count_cmd; i++) {
+    for (i = 0; i < pipex->count_cmd - 1; i++) {
         pipes[i] = malloc(sizeof(int) * 2);
         if (!pipes[i]) {
             perror("malloc");
