@@ -6,7 +6,7 @@
 /*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 14:09:29 by loribeir          #+#    #+#             */
-/*   Updated: 2025/02/03 17:57:14 by loribeir         ###   ########.fr       */
+/*   Updated: 2025/02/04 09:59:54 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ typedef struct t_pipex
 int     ft_init_pipex(t_pipex *pipex, int ac, char **av);
 t_cmd   *cmd_list(char **av, int start, int end);
 t_cmd   *create_cmd(char *cmd);
-void    add_cmd(t_cmd **head, t_cmd *new_cmd);
+int     add_cmd(t_cmd *head, t_cmd *new_cmd);
 
 /* PARSING */
 bool    ft_parse_args(t_pipex *pipex, int ac, char **av);
