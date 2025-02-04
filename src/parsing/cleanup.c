@@ -6,7 +6,7 @@
 /*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 07:32:29 by loribeir          #+#    #+#             */
-/*   Updated: 2025/02/04 08:14:56 by loribeir         ###   ########.fr       */
+/*   Updated: 2025/02/04 18:33:15 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,65 +17,65 @@
  * free_tab, free_cmd, cleanup pipex.
  */
 
-void    free_tab(char **tab)
+void	free_tab(char **tab)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    while (tab[i])
-        free(tab[i++]);
-    free(tab);
+	i = 0;
+	while (tab[i])
+		free(tab[i++]);
+	free(tab);
 }
 
 void    free_cmd_list(t_cmd *head)
 {
-    t_cmd   *current;
-    t_cmd   *next;
-    int     i;
+	t_cmd   *current;
+	t_cmd   *next;
+	int     i;
 
-    current = head;
-    while (current != NULL)
-    {
-        next = current->next;
-        if (current->cmd)
-        {
-            i = 0;
-            while (current->cmd[i])
-            {
-                free(current->cmd[i]);
-                i++;
-            }
-            free(current->cmd);
-            current->cmd = NULL;
-        }
-        free(current);
-        current = next;
-    }
+	current = head;
+	while (current != NULL)
+	{
+		next = current->next;
+		if (current->cmd)
+		{
+			i = 0;
+			while (current->cmd[i])
+			{
+				free(current->cmd[i]);
+				i++;
+			}
+			free(current->cmd);
+			current->cmd = NULL;
+		}
+		free(current);
+		current = next;
+	}
 }
 
 void    ft_cleanup(t_pipex *pipex)
 {
-    if (pipex == NULL)
-        return ;
-    if (pipex->path)
-    {
-        free_tab(pipex->path);
-        pipex->path = NULL;
-    }
-    if (pipex->cmd)
-    {
-        free_cmd_list(pipex->cmd);
-        pipex->cmd = NULL;
-    }
-    if (pipex->in_fd != -1)
-        close(pipex->in_fd);
-    if (pipex->out_fd != -1)
-        close(pipex->out_fd);
-    if (pipex->pids)
-    {
-        free(pipex->pids);
-        pipex->pids = NULL;
-    }
-    free(pipex);
+	if (pipex == NULL)
+		return ;
+	if (pipex->path)
+	{
+		free_tab(pipex->path);
+		pipex->path = NULL;
+	}
+	if (pipex->cmd)
+	{
+		free_cmd_list(pipex->cmd);
+		pipex->cmd = NULL;
+	}
+	if (pipex->in_fd != -1)
+		close(pipex->in_fd);
+	if (pipex->out_fd != -1)
+		close(pipex->out_fd);
+	if (pipex->pids)
+	{
+		free(pipex->pids);
+		pipex->pids = NULL;
+	}
+	free(pipex);
 }
 
