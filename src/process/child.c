@@ -6,7 +6,7 @@
 /*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 09:36:19 by loribeir          #+#    #+#             */
-/*   Updated: 2025/02/04 09:21:19 by loribeir         ###   ########.fr       */
+/*   Updated: 2025/02/04 12:14:00 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,8 @@ void    execute_cmd(t_pipex *pipex, t_cmd *cmd, char **envp, int i)
 {
     char    *path;
 
-    (void)i;
     (void)pipex;
-    path = find_executable(cmd->cmd[0], envp);
+    path = find_executable(cmd->cmd[i], envp);
     if (!path)
         exit(EXIT_FAILURE);
     execve(path, cmd->cmd, envp);
@@ -62,7 +61,10 @@ int    wait_children(t_pipex *pipex)
             continue;
         }
         if (WIFEXITED(status))
-            last_status = WEXITSTATUS(status);
+        {
+            if (WEXITSTATUS(status) != 0)
+                last_status = WEXITSTATUS(status);
+        }
         i++;
     }
     return (last_status);

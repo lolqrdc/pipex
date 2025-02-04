@@ -6,7 +6,7 @@
 /*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 18:41:58 by lolq              #+#    #+#             */
-/*   Updated: 2025/02/04 09:41:32 by loribeir         ###   ########.fr       */
+/*   Updated: 2025/02/04 12:06:20 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ bool    ft_parse_args(t_pipex *pipex, int ac, char **av)
         if (ac < 6)
             return (ft_putstr_fd("Error: Not enough arguments\n", 2), false);
     }
+    pipex->cmd = NULL;
     pipex->cmd = cmd_list(av, 2, ac - 1);
     if (pipex->cmd == NULL)
         return (false);
@@ -112,13 +113,12 @@ bool    add_paths(t_pipex *pipex, char **envp)
     return (true);
 }
 
-int open_files(t_pipex *pipex)
+void open_files(t_pipex *pipex)
 {
     pipex->in_fd = open(pipex->infile, O_RDONLY);
     if (pipex->in_fd < 0)
-        return(ft_putstr_fd("Error: impossible to open the infile\n", 2), 1);
+        perror("Error opening input file");
     pipex->out_fd = open(pipex->outfile, O_CREAT | O_WRONLY | O_TRUNC, 0644);
     if (pipex->out_fd < 0)
-        return (ft_putstr_fd("Error: impossible to open or create the outfile\n", 2), 1);
-    return (0);
+        perror("Error opening or creating output file");
 }
