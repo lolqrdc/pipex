@@ -6,7 +6,7 @@
 /*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 14:09:29 by loribeir          #+#    #+#             */
-/*   Updated: 2025/02/04 11:56:53 by loribeir         ###   ########.fr       */
+/*   Updated: 2025/02/04 17:03:16 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,24 +51,24 @@ typedef struct t_pipex
 int     ft_init_pipex(t_pipex *pipex, int ac, char **av);
 t_cmd   *cmd_list(char **av, int start, int end);
 t_cmd   *create_cmd(char *cmd);
-int     add_cmd(t_cmd *head, t_cmd *new_cmd);
+void    add_cmd(t_cmd **head, t_cmd *new_cmd);
 
 /* PARSING */
 bool    ft_parse_args(t_pipex *pipex, int ac, char **av);
 char    *search_path(char **paths, char *cmd);
 char    *find_executable(char *cmd, char **envp);
 bool    add_paths(t_pipex *pipex, char **envp);
-void     open_files(t_pipex *pipex);
+int     open_files(t_pipex *pipex);
 
 /* EXECUTION */
 void    ft_execute(t_pipex *pipex, char **envp);
-int     handle_fork(t_pipex *pipex, char **envp, int i);
+int     handle_fork(t_pipex *pipex, char **envp, int i, t_cmd *current);
 int     **create_pipes(t_pipex *pipex);
 void    close_all_pipes(t_pipex *pipex);
 void    close_all_pipes_except_current(t_pipex *pipex, int i);
 
 //
-void    child_process(t_pipex *pipex, char **envp, int i); 
+void    child_process(t_pipex *pipex, char **envp, int i, t_cmd *current);
 void    execute_cmd(t_pipex *pipex, t_cmd *cmd, char **envp, int i);
 int     wait_children(t_pipex *pipex);
 

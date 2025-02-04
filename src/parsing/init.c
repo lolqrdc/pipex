@@ -6,7 +6,7 @@
 /*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 21:41:06 by lolq              #+#    #+#             */
-/*   Updated: 2025/02/04 10:14:37 by loribeir         ###   ########.fr       */
+/*   Updated: 2025/02/04 16:53:54 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,7 @@ t_cmd   *cmd_list(char **av, int start, int end)
             free_cmd_list(head);
             return (NULL);
         }
-        add_cmd(head, new_cmd);
-        free_cmd_list(new_cmd);
+        add_cmd(&head, new_cmd);
         i++;
     }
     return (head);
@@ -61,24 +60,28 @@ t_cmd   *cmd_list(char **av, int start, int end)
 t_cmd   *create_cmd(char *cmd)
 {
     t_cmd   *new_cmd;
-
+    
     new_cmd = malloc(sizeof(t_cmd));
     if (new_cmd == NULL)
         return (NULL);
     new_cmd->cmd = ft_split(cmd, ' ');
+    if (new_cmd->cmd == NULL)
+        return (free(new_cmd), NULL);
     new_cmd->next = NULL;
     return (new_cmd);
 }
 
-int    add_cmd(t_cmd *head, t_cmd *new_cmd)
+void    add_cmd(t_cmd **head, t_cmd *new_cmd)
 {
     t_cmd   *tmp;
 
-    if (!head || !new_cmd)
-        return (1);
-    tmp = head;
+    if (*head == NULL)
+    {
+        *head = new_cmd;
+        return ;
+    }
+    tmp = *head;
     while (tmp->next != NULL)
         tmp = tmp->next;
     tmp->next = new_cmd;
-    return (0);
 }

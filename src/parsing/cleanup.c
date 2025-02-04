@@ -6,7 +6,7 @@
 /*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 07:32:29 by loribeir          #+#    #+#             */
-/*   Updated: 2025/02/04 10:03:03 by loribeir         ###   ########.fr       */
+/*   Updated: 2025/02/04 08:14:56 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void    free_tab(char **tab)
     int i;
 
     i = 0;
-    while (tab[i] != NULL)
+    while (tab[i])
         free(tab[i++]);
     free(tab);
 }
@@ -31,13 +31,23 @@ void    free_cmd_list(t_cmd *head)
 {
     t_cmd   *current;
     t_cmd   *next;
+    int     i;
 
     current = head;
     while (current != NULL)
     {
         next = current->next;
         if (current->cmd)
-            free_tab(current->cmd);
+        {
+            i = 0;
+            while (current->cmd[i])
+            {
+                free(current->cmd[i]);
+                i++;
+            }
+            free(current->cmd);
+            current->cmd = NULL;
+        }
         free(current);
         current = next;
     }

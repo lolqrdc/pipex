@@ -6,13 +6,13 @@
 /*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 09:36:19 by loribeir          #+#    #+#             */
-/*   Updated: 2025/02/04 12:14:00 by loribeir         ###   ########.fr       */
+/*   Updated: 2025/02/04 17:16:07 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void    child_process(t_pipex *pipex, char **envp, int i)
+void    child_process(t_pipex *pipex, char **envp, int i, t_cmd *current)
 {
     close_all_pipes_except_current(pipex, i);
     if (i == 0) // first processus
@@ -31,17 +31,18 @@ void    child_process(t_pipex *pipex, char **envp, int i)
         dup2(pipex->pipes_fd[i][1], STDOUT_FILENO);
     }
     close_all_pipes(pipex);
-    execute_cmd(pipex, pipex->cmd, envp, i);
+    execute_cmd(pipex, current, envp, i);
 }
-void    execute_cmd(t_pipex *pipex, t_cmd *cmd, char **envp, int i)
+void    execute_cmd(t_pipex *pipex, t_cmd *current, char **envp, int i)
 {
     char    *path;
 
+    (void)i;
     (void)pipex;
-    path = find_executable(cmd->cmd[i], envp);
+    path = find_executable(current->cmd[0], envp);
     if (!path)
         exit(EXIT_FAILURE);
-    execve(path, cmd->cmd, envp);
+    execve(path, current->cmd, envp);
     perror("execve");
     exit(EXIT_FAILURE);
 }
@@ -61,10 +62,7 @@ int    wait_children(t_pipex *pipex)
             continue;
         }
         if (WIFEXITED(status))
-        {
-            if (WEXITSTATUS(status) != 0)
-                last_status = WEXITSTATUS(status);
-        }
+            last_status = WEXITSTATUS(status);
         i++;
     }
     return (last_status);

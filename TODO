@@ -1,4 +1,3 @@
 PIPEX: 
     ☐ TO FIX: ne fonctionne pas quand on melange bonne et mauvaise commandes.
-    ✔ TO FIX: leak create_cmd. @done(25-02-04 11:07)
-    ☐ TO FIX: **create_pipes.
+    ☐ TO FIX: leak ()

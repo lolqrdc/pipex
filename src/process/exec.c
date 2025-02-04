@@ -6,7 +6,7 @@
 /*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 07:46:38 by loribeir          #+#    #+#             */
-/*   Updated: 2025/02/04 11:57:00 by loribeir         ###   ########.fr       */
+/*   Updated: 2025/02/04 17:59:07 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,20 +28,19 @@ void    ft_execute(t_pipex *pipex, char **envp)
         return ;
     while (i < pipex->count_cmd)
     {
-        pipex->cmd = current;
-        handle_fork(pipex, envp, i);
+        handle_fork(pipex, envp, i, current);
         current = current->next;
         i++;
     }
     close_all_pipes(pipex);
     wait_children(pipex);
 }
-int handle_fork(t_pipex *pipex, char **envp, int i)
+int handle_fork(t_pipex *pipex, char **envp, int i, t_cmd *current)
 {
     pipex->pids[i] = fork();
     if (pipex->pids[i] == 0)
     {
-        child_process(pipex, envp, i);
+        child_process(pipex, envp, i, current);
         exit(EXIT_FAILURE);
     }
     else if (pipex->pids[i] < 0)
@@ -57,17 +56,9 @@ int **create_pipes(t_pipex *pipex)
     int **pipes;
     int i;
 
-    if (pipex->count_cmd <= 1) {
-        fprintf(stderr, "Erreur : Nombre de commandes insuffisant\n");
-        return NULL;
-    }
-
     pipes = malloc(sizeof(int *) * (pipex->count_cmd - 1));
-    if (!pipes) {
-        perror("malloc");
-        return NULL;
-    }
-
+    if (!pipes) 
+        return(perror("malloc"), NULL);
     for (i = 0; i < pipex->count_cmd - 1; i++) {
         pipes[i] = malloc(sizeof(int) * 2);
         if (!pipes[i]) {
