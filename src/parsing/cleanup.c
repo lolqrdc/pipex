@@ -6,7 +6,7 @@
 /*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 07:32:29 by loribeir          #+#    #+#             */
-/*   Updated: 2025/02/03 18:36:16 by loribeir         ###   ########.fr       */
+/*   Updated: 2025/02/04 08:14:56 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void    free_cmd_list(t_cmd *head)
     t_cmd   *current;
     t_cmd   *next;
     int     i;
+
     current = head;
     while (current != NULL)
     {

@@ -6,7 +6,7 @@
 /*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 21:41:06 by lolq              #+#    #+#             */
-/*   Updated: 2025/02/03 18:34:08 by loribeir         ###   ########.fr       */
+/*   Updated: 2025/02/04 09:01:46 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,9 @@ t_cmd   *cmd_list(char **av, int start, int end)
             free_cmd_list(head);
             return (NULL);
         }
-        i++;
         add_cmd(&head, new_cmd);
+        i++;
     }
-    free_cmd_list(new_cmd);
     return (head);
 }
 
@@ -66,6 +65,8 @@ t_cmd   *create_cmd(char *cmd)
     if (new_cmd == NULL)
         return (NULL);
     new_cmd->cmd = ft_split(cmd, ' ');
+    if (new_cmd->cmd == NULL)
+        return (free(new_cmd), NULL);
     new_cmd->next = NULL;
     return (new_cmd);
 }
