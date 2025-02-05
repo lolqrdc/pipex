@@ -6,7 +6,7 @@
 /*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 09:09:54 by loribeir          #+#    #+#             */
-/*   Updated: 2025/02/05 09:57:34 by loribeir         ###   ########.fr       */
+/*   Updated: 2025/02/05 13:06:41 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ int handle_here_doc(char *limiter)
     int     fd;
 
     limit_with_nl = ft_strjoin(limiter, "\n");
-    fd = open("tmp", O_CREAT | O_WRONLY | O_TRUNC, 0644);
+    fd = open("here_doc", O_CREAT | O_WRONLY | O_TRUNC, 0644);
     if (!limit_with_nl || fd < 0)
-        return (-1);
+        return (1);
     while (1)
     {
         ft_putstr_fd("heredoc> ", 1);

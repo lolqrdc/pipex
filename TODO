@@ -1,3 +1,4 @@
 PIPEX: 
     ☐ TO FIX: ne fonctionne pas quand on melange bonne et mauvaise commandes.
-    ☐ TO FIX: leak ()
+    ✔ TO FIX: gerer les chemins absolu @done(25-02-05 13:59)
+    ☐ TO FIX: les fd ouvert

@@ -6,7 +6,7 @@
 /*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 07:32:29 by loribeir          #+#    #+#             */
-/*   Updated: 2025/02/04 18:33:15 by loribeir         ###   ########.fr       */
+/*   Updated: 2025/02/05 13:10:21 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ void    ft_cleanup(t_pipex *pipex)
 		free(pipex->pids);
 		pipex->pids = NULL;
 	}
+	if (pipex->here_doc == true)
+		unlink("here_doc");
 	free(pipex);
 }
 
