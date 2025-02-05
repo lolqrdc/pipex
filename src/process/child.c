@@ -6,7 +6,7 @@
 /*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 09:36:19 by loribeir          #+#    #+#             */
-/*   Updated: 2025/02/05 08:11:33 by loribeir         ###   ########.fr       */
+/*   Updated: 2025/02/05 15:30:18 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void    execute_cmd(t_pipex *pipex, t_cmd *current, char **envp, int i)
     (void)pipex;
     path = find_executable(current->cmd[0], envp);
     if (!path)
-        exit(EXIT_FAILURE);
+        exit(127);
     execve(path, current->cmd, envp);
     perror("execve");
     exit(EXIT_FAILURE);

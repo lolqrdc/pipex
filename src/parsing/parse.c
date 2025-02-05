@@ -6,7 +6,7 @@
 /*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 18:41:58 by lolq              #+#    #+#             */
-/*   Updated: 2025/02/05 14:08:16 by loribeir         ###   ########.fr       */
+/*   Updated: 2025/02/05 15:40:02 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,34 +90,6 @@ char    *find_executable(char *cmd, char **envp)
         i++;
     }
     return (NULL);
-}
-bool    add_paths(t_pipex *pipex, char **envp)
-{
-    t_cmd   *tmp;
-    int     i;
-
-    i = 0;
-    tmp = pipex->cmd;
-    pipex->path = malloc(sizeof(char *)*(pipex->count_cmd + 1));
-    if (!pipex->path)
-        return (false);
-    while (i < pipex->count_cmd && tmp)
-    {
-        pipex->path[i] = find_executable(tmp->cmd[0], envp);
-        if (!pipex->path[i])
-        {
-            ft_putstr_fd("Error: Command not found\n", 2);
-            while (--i >= 0)
-                free(pipex->path[i]);
-            free(pipex->path);
-            pipex->path = NULL;
-            return (false);
-        }
-        i++;
-        tmp = tmp->next;
-    }
-    pipex->path[i] = NULL;
-    return (true);
 }
 
 int open_files(t_pipex *pipex)
