@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lolq <lolq@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 07:32:29 by loribeir          #+#    #+#             */
-/*   Updated: 2025/02/05 13:10:21 by loribeir         ###   ########.fr       */
+/*   Updated: 2025/02/05 18:00:37 by lolq             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,9 @@ void    free_cmd_list(t_cmd *head)
 			free(current->cmd);
 			current->cmd = NULL;
 		}
-		free(current);
 		current = next;
 	}
+	free(current);
 }
 
 void    ft_cleanup(t_pipex *pipex)
