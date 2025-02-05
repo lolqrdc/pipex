@@ -6,7 +6,7 @@
 /*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 07:46:38 by loribeir          #+#    #+#             */
-/*   Updated: 2025/02/04 18:40:56 by loribeir         ###   ########.fr       */
+/*   Updated: 2025/02/05 09:05:47 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,34 +51,45 @@ int handle_fork(t_pipex *pipex, char **envp, int i, t_cmd *current)
     return (0);
 }
 
+int init_pipes(int **pipes, int i, int max)
+{
+    if (i >= max)
+        return (1);
+    pipes[i] = malloc(sizeof(int) * 2);
+    if (!pipes[i])
+    {
+        perror("malloc");
+        while (i-- >= 0)
+            free(pipes[i]);
+        return (0);
+    }
+    if (pipe(pipes[i]) < 0)
+    {
+        perror("pipe");
+        free(pipes[i]);
+        while (i -- >= 0)
+            free(pipes[i]);
+        return (0);
+    }
+    return (init_pipes(pipes, i + 1, max));
+}
+
 int **create_pipes(t_pipex *pipex)
 {
     int **pipes;
-    int i;
-
+    
     pipes = malloc(sizeof(int *) * (pipex->count_cmd - 1));
-    if (!pipes) 
-        return(perror("malloc"), NULL);
-    for (i = 0; i < pipex->count_cmd - 1; i++) {
-        pipes[i] = malloc(sizeof(int) * 2);
-        if (!pipes[i]) {
-            perror("malloc");
-            while (--i >= 0)
-                free(pipes[i]);
-            free(pipes);
-            return NULL;
-        }
-        if (pipe(pipes[i]) < 0) {
-            perror("pipe");
-            while (i >= 0) {
-                free(pipes[i]);
-                i--;
-            }
-            free(pipes);
-            return NULL;
-        }
+    if (!pipes)
+    {
+        perror("malloc");
+        return (NULL);
     }
-    return pipes;
+    if (!init_pipes(pipes, 0, pipex->count_cmd - 1))
+    {
+        free(pipes);
+        return (NULL);
+    }
+    return (pipes);
 }
 
 /* Close if error case or end of the program */

@@ -20,6 +20,7 @@ SRCS = $(SRC_DIR)main.c \
 		$(SRC_DIR)parsing/cleanup.c \
 		$(SRC_DIR)process/child.c \
 		$(SRC_DIR)process/exec.c \
+		$(SRC_DIR)process/here_doc.c \
 
 # CONNECT ALL SOURCES FILES
 OBJS = $(SRCS:$(SRC_DIR)%.c=$(OBJS_DIR)%.o)

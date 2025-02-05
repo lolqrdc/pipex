@@ -6,12 +6,11 @@
 /*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 18:43:44 by lolq              #+#    #+#             */
-/*   Updated: 2025/02/04 17:13:49 by loribeir         ###   ########.fr       */
+/*   Updated: 2025/02/05 09:09:07 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-
 
 int main(int argc, char **argv, char **envp)
 {
