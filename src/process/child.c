@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lolq <lolq@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 09:36:19 by loribeir          #+#    #+#             */
-/*   Updated: 2025/02/05 18:11:04 by lolq             ###   ########.fr       */
+/*   Updated: 2025/02/05 15:30:18 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,8 @@ void    execute_cmd(t_pipex *pipex, t_cmd *current, char **envp, int i)
     (void)pipex;
     path = find_executable(current->cmd[0], envp);
     if (!path)
-    {
-        ft_cleanup(pipex);
         exit(127);
-    }
     execve(path, current->cmd, envp);
-    free(path);
-    ft_cleanup(pipex);
     perror("execve");
     exit(EXIT_FAILURE);
 }

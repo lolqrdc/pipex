@@ -2,3 +2,10 @@ PIPEX:
     ✔ TO FIX: ne fonctionne pas quand on melange bonne et mauvaise commandes. @done(25-02-05 15:40)
     ✔ TO FIX: gerer les chemins absolu @done(25-02-05 13:59)
     ☐ TO FIX: les fd ouvert
+
+ERRORS LIST : 
+    ✔ 2 commandes @done(25-02-06 09:26)
+    ✔ plusieurs commandes (bonus) @done(25-02-06 09:26)
+    ☐ sans commandes et une mauvaise + une bonne commande -> still reachable lost
+    ✔ here_doc @done(25-02-06 09:44)
+    
