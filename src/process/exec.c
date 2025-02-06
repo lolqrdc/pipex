@@ -6,7 +6,7 @@
 /*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 07:46:38 by loribeir          #+#    #+#             */
-/*   Updated: 2025/02/06 17:33:49 by loribeir         ###   ########.fr       */
+/*   Updated: 2025/02/06 18:21:21 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void    ft_execute(t_pipex *pipex, char **envp)
 {
     int     i;
     t_cmd   *current;
+    int     exit_code;
     
     i = 0;
     current = pipex->cmd;
@@ -33,7 +34,8 @@ void    ft_execute(t_pipex *pipex, char **envp)
         i++;
     }
     close_all_pipes(pipex);
-    wait_children(pipex);
+    exit_code = wait_children(pipex); // exit avec un bon code erreur pour que le parent le recupere.
+    exit(exit_code);
 }
 int handle_fork(t_pipex *pipex, char **envp, int i, t_cmd *current)
 {
