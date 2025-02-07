@@ -6,7 +6,7 @@
 /*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 07:32:29 by loribeir          #+#    #+#             */
-/*   Updated: 2025/02/06 17:28:10 by loribeir         ###   ########.fr       */
+/*   Updated: 2025/02/07 08:05:57 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,11 @@ void	free_tab(char **tab)
 	free(tab);
 }
 
-void    free_cmd_list(t_cmd *head)
+void	free_cmd_list(t_cmd *head)
 {
-	t_cmd   *current;
-	t_cmd   *next;
-	int     i;
+	t_cmd	*current;
+	t_cmd	*next;
+	int		i;
 
 	current = head;
 	while (current != NULL)
@@ -53,7 +53,7 @@ void    free_cmd_list(t_cmd *head)
 	}
 }
 
-void    ft_cleanup(t_pipex *pipex)
+void	ft_cleanup(t_pipex *pipex)
 {
 	if (pipex == NULL)
 		return ;
@@ -80,4 +80,3 @@ void    ft_cleanup(t_pipex *pipex)
 		unlink("here_doc");
 	free(pipex);
 }
-
