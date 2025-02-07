@@ -6,7 +6,7 @@
 /*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 07:46:38 by loribeir          #+#    #+#             */
-/*   Updated: 2025/02/07 08:05:35 by loribeir         ###   ########.fr       */
+/*   Updated: 2025/02/07 09:25:15 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,16 @@
  * @brief 
  */
 
-void	ft_execute(t_pipex *pipex, char **envp)
+int	ft_execute(t_pipex *pipex, char **envp)
 {
 	t_cmd	*current;
-	int		exit_code;
 	int		i;
 
 	i = 0;
 	current = pipex->cmd;
 	pipex->pipes_fd = create_pipes(pipex);
 	if (!pipex->pipes_fd)
-		return ;
+		return (1);
 	while (i < pipex->count_cmd)
 	{
 		handle_fork(pipex, envp, i, current);
@@ -34,8 +33,7 @@ void	ft_execute(t_pipex *pipex, char **envp)
 		i++;
 	}
 	close_all_pipes(pipex);
-	exit_code = wait_children(pipex);
-	exit(exit_code);
+	return (wait_children(pipex));
 }
 
 int	handle_fork(t_pipex *pipex, char **envp, int i, t_cmd *current)

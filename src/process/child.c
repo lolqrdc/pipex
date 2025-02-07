@@ -6,7 +6,7 @@
 /*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 09:36:19 by loribeir          #+#    #+#             */
-/*   Updated: 2025/02/07 08:06:55 by loribeir         ###   ########.fr       */
+/*   Updated: 2025/02/07 09:29:51 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,13 @@ void	child_process(t_pipex *pipex, char **envp, int i, t_cmd *current)
 	{
 		dup2(pipex->in_fd, STDIN_FILENO);
 		dup2(pipex->pipes_fd[i][1], STDOUT_FILENO);
+		close(pipex->in_fd);
 	}
 	else if (i == pipex->count_cmd - 1)
 	{
 		dup2(pipex->pipes_fd[i - 1][0], STDIN_FILENO);
 		dup2(pipex->out_fd, STDOUT_FILENO);
+		close(pipex->out_fd);
 	}
 	else
 	{

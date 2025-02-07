@@ -6,7 +6,7 @@
 /*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 18:43:44 by lolq              #+#    #+#             */
-/*   Updated: 2025/02/07 08:10:18 by loribeir         ###   ########.fr       */
+/*   Updated: 2025/02/07 09:23:55 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int	main(int argc, char **argv, char **envp)
 {
 	t_pipex	*pipex;
+	int		exit_code;
 
 	if (argc < 5)
 		return (ft_putstr_fd("Error: Not enough arguments\n", 2), 1);
@@ -27,7 +28,7 @@ int	main(int argc, char **argv, char **envp)
 		return (ft_cleanup(pipex), 1);
 	if (open_files(pipex) != 0)
 		return (ft_cleanup(pipex), 1);
-	ft_execute(pipex, envp);
+	exit_code = ft_execute(pipex, envp);
 	ft_cleanup(pipex);
-	return (0);
+	exit(exit_code);
 }
