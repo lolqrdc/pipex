@@ -6,7 +6,7 @@
 /*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 09:36:19 by loribeir          #+#    #+#             */
-/*   Updated: 2025/02/07 09:29:51 by loribeir         ###   ########.fr       */
+/*   Updated: 2025/02/07 10:38:00 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,29 @@
 
 void	child_process(t_pipex *pipex, char **envp, int i, t_cmd *current)
 {
+	int	fd;
+
+	fd = -1;
 	close_all_pipes_except_current(pipex, i);
 	if (i == 0)
 	{
+		fd = open_files(pipex, false);
 		dup2(pipex->in_fd, STDIN_FILENO);
 		dup2(pipex->pipes_fd[i][1], STDOUT_FILENO);
-		close(pipex->in_fd);
 	}
 	else if (i == pipex->count_cmd - 1)
 	{
+		fd = open_files(pipex, true);
 		dup2(pipex->pipes_fd[i - 1][0], STDIN_FILENO);
 		dup2(pipex->out_fd, STDOUT_FILENO);
-		close(pipex->out_fd);
 	}
 	else
 	{
 		dup2(pipex->pipes_fd[i - 1][0], STDIN_FILENO);
 		dup2(pipex->pipes_fd[i][1], STDOUT_FILENO);
 	}
+	if (fd != -1)
+		close(fd);
 	close_all_pipes(pipex);
 	execute_cmd(pipex, current, envp, i);
 }
@@ -49,9 +54,13 @@ void	execute_cmd(t_pipex *pipex, t_cmd *current, char **envp, int i)
 		ft_putstr_fd("command not found\n", 2);
 		exit(127);
 	}
-	execve(path, current->cmd, envp);
+	if (pipex->out_fd != -1)
+	{
+		execve(path, current->cmd, envp);
+		perror("execve");
+	}
 	free(path);
-	perror("execve");
+	ft_cleanup(pipex);
 	exit(EXIT_FAILURE);
 }
 
@@ -90,7 +99,13 @@ void	close_all_pipes_except_current(t_pipex *pipex, int i)
 		j++;
 	}
 	if (i != 0)
-		close(pipex->in_fd);
+	{
+		if (pipex->in_fd > 0)
+			close(pipex->in_fd);
+	}
 	if (i != pipex->count_cmd - 1)
-		close(pipex->out_fd);
+	{
+		if (pipex->out_fd > 0)
+			close(pipex->out_fd);
+	}
 }

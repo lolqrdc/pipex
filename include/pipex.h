@@ -6,7 +6,7 @@
 /*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 14:09:29 by loribeir          #+#    #+#             */
-/*   Updated: 2025/02/07 09:25:00 by loribeir         ###   ########.fr       */
+/*   Updated: 2025/02/07 09:56:48 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	add_cmd(t_cmd **head, t_cmd *new_cmd);
 bool	ft_parse_args(t_pipex *pipex, int ac, char **av);
 char	*search_path(char **paths, char *cmd);
 char	*find_executable(char *cmd, char **envp);
-int		open_files(t_pipex *pipex);
+int		open_files(t_pipex *pipex, bool is_output);
 int		handle_here_doc(char *limiter);
 
 /* EXECUTION */

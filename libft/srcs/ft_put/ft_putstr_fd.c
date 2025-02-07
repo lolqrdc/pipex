@@ -6,7 +6,7 @@
 /*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 07:26:17 by loribeir          #+#    #+#             */
-/*   Updated: 2024/10/28 08:01:01 by loribeir         ###   ########.fr       */
+/*   Updated: 2025/02/07 09:40:15 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,5 +18,6 @@ void	ft_putstr_fd(char *s, int fd)
 
 	i = 0;
 	while (s[i] != '\0')
-		write(fd, &s[i++], 1);
+		++i;
+	write(fd, s, i);
 }

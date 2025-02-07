@@ -6,7 +6,7 @@
 /*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 18:43:44 by lolq              #+#    #+#             */
-/*   Updated: 2025/02/07 09:23:55 by loribeir         ###   ########.fr       */
+/*   Updated: 2025/02/07 10:03:09 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@ int	main(int argc, char **argv, char **envp)
 	if (ft_init_pipex(pipex, argc, argv) != 0)
 		return (ft_cleanup(pipex), 1);
 	if (!ft_parse_args(pipex, argc, argv))
-		return (ft_cleanup(pipex), 1);
-	if (open_files(pipex) != 0)
 		return (ft_cleanup(pipex), 1);
 	exit_code = ft_execute(pipex, envp);
 	ft_cleanup(pipex);

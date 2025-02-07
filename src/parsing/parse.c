@@ -6,7 +6,7 @@
 /*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 18:41:58 by lolq              #+#    #+#             */
-/*   Updated: 2025/02/07 08:09:31 by loribeir         ###   ########.fr       */
+/*   Updated: 2025/02/07 10:18:36 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,16 +90,29 @@ char	*find_executable(char *cmd, char **envp)
 	return (NULL);
 }
 
-int	open_files(t_pipex *pipex)
+int	open_files(t_pipex *pipex, bool is_output)
 {
-	pipex->in_fd = open(pipex->infile, O_RDONLY);
-	if (pipex->in_fd < 0)
-		return (ft_putstr_fd("Error: impossible to open the infile\n", 2), 1);
-	pipex->out_fd = open(pipex->outfile, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	if (pipex->out_fd < 0)
+	int	fd;
+
+	if (is_output)
 	{
-		ft_putstr_fd("Error: impossible to open or create the outfile\n", 2);
-		return (1);
+		fd = open(pipex->outfile, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+		if (fd < 0)
+		{
+			perror(pipex->outfile);
+			return (1);
+		}
+		pipex->out_fd = fd;
+	}
+	else
+	{
+		fd = open(pipex->infile, O_RDONLY);
+		if (fd < 0)
+		{
+			perror(pipex->infile);
+			return (1);
+		}
+		pipex->in_fd = fd;
 	}
 	return (0);
 }
