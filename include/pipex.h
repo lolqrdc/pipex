@@ -6,7 +6,7 @@
 /*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 14:09:29 by loribeir          #+#    #+#             */
-/*   Updated: 2025/02/10 11:05:11 by loribeir         ###   ########.fr       */
+/*   Updated: 2025/02/10 11:27:31 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int		**create_pipes(t_pipex *pipex);
 void	close_all_pipes(t_pipex *pipex);
 
 //
-void    first_child(t_pipex *pipex, int i);
+void	first_child(t_pipex *pipex, int i);
 void	child_process(t_pipex *pipex, char **envp, int i, t_cmd *current);
 void	execute_cmd(t_pipex *pipex, t_cmd *cmd, char **envp, int i);
 int		wait_children(t_pipex *pipex);

@@ -6,59 +6,58 @@
 /*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 09:36:19 by loribeir          #+#    #+#             */
-/*   Updated: 2025/02/10 11:06:10 by loribeir         ###   ########.fr       */
+/*   Updated: 2025/02/10 11:28:51 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void    first_child(t_pipex *pipex, int i)
+void	first_child(t_pipex *pipex, int i)
 {
-
-    if (open_files(pipex, false) == -1)
-    {
-        perror("infile");
-        close_all_pipes(pipex);
-        ft_cleanup(pipex);
-        exit(1);
-     }
-    if (dup2(pipex->in_fd, STDIN_FILENO) == -1 ||
-        dup2(pipex->pipes_fd[i][1], STDOUT_FILENO) == -1)
-    {
-        perror("dup2");
-        close_all_pipes(pipex);
-        ft_cleanup(pipex);
-        exit(1);
-    }
-    close(pipex->in_fd);
-    close(pipex->pipes_fd[i][1]);
+	if (open_files(pipex, false) == -1)
+	{
+		perror("infile");
+		close_all_pipes(pipex);
+		ft_cleanup(pipex);
+		exit(EXIT_FAILURE);
+	}
+	if (dup2(pipex->in_fd, STDIN_FILENO) == -1
+		|| dup2(pipex->pipes_fd[i][1], STDOUT_FILENO) == -1)
+	{
+		perror("dup2");
+		close_all_pipes(pipex);
+		ft_cleanup(pipex);
+		exit(EXIT_FAILURE);
+	}
+	close(pipex->in_fd);
+	close(pipex->pipes_fd[i][1]);
 }
 
-void    child_process(t_pipex *pipex, char **envp, int i, t_cmd *current)
+void	child_process(t_pipex *pipex, char **envp, int i, t_cmd *current)
 {
-    if (i == 0)
-        first_child(pipex, i);
-    else if (i == pipex->count_cmd - 1)
-    {
-        if (open_files(pipex, true) == -1)
-        {
-            ft_cleanup(pipex);
-            exit(1);
-        }
-        dup2(pipex->pipes_fd[i - 1][0], STDIN_FILENO);
-        dup2(pipex->out_fd, STDOUT_FILENO);
-        close(pipex->pipes_fd[i - 1][0]);
-        close(pipex->out_fd);
-    }
-    else
-    {
-        dup2(pipex->pipes_fd[i - 1][0], STDIN_FILENO);
-        dup2(pipex->pipes_fd[i][1], STDOUT_FILENO);
-        close(pipex->pipes_fd[i - 1][0]);
-        close(pipex->pipes_fd[i][1]);
-    }
-    close_all_pipes(pipex);
-    execute_cmd(pipex, current, envp, i);
+	if (i == 0)
+		first_child(pipex, i);
+	else if (i == pipex->count_cmd - 1)
+	{
+		if (open_files(pipex, true) == -1)
+		{
+			ft_cleanup(pipex);
+			exit(EXIT_FAILURE);
+		}
+		dup2(pipex->pipes_fd[i - 1][0], STDIN_FILENO);
+		dup2(pipex->out_fd, STDOUT_FILENO);
+		close(pipex->pipes_fd[i - 1][0]);
+		close(pipex->out_fd);
+	}
+	else
+	{
+		dup2(pipex->pipes_fd[i - 1][0], STDIN_FILENO);
+		dup2(pipex->pipes_fd[i][1], STDOUT_FILENO);
+		close(pipex->pipes_fd[i - 1][0]);
+		close(pipex->pipes_fd[i][1]);
+	}
+	close_all_pipes(pipex);
+	execute_cmd(pipex, current, envp, i);
 }
 
 void	execute_cmd(t_pipex *pipex, t_cmd *current, char **envp, int i)
