@@ -6,7 +6,7 @@
 /*   By: lolq <lolq@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 09:36:19 by loribeir          #+#    #+#             */
-/*   Updated: 2025/02/10 14:03:28 by lolq             ###   ########.fr       */
+/*   Updated: 2025/02/10 14:25:44 by lolq             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	first_child(t_pipex *pipex, int i)
 {
-	if (open_files(pipex, false) == -1)
+	if (open_files(pipex, false, 0) == -1)
 	{
 		perror("infile");
 		close_all_pipes(pipex);
@@ -39,7 +39,7 @@ void	child_process(t_pipex *pipex, char **envp, int i, t_cmd *current)
 		first_child(pipex, i);
 	else if (i == pipex->count_cmd - 1)
 	{
-		if (open_files(pipex, true) == -1)
+		if (open_files(pipex, true, 0) == -1)
 		{
 			ft_cleanup(pipex);
 			exit(EXIT_FAILURE);

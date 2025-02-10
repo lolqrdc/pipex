@@ -6,7 +6,7 @@
 /*   By: lolq <lolq@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 18:41:58 by lolq              #+#    #+#             */
-/*   Updated: 2025/02/10 14:19:43 by lolq             ###   ########.fr       */
+/*   Updated: 2025/02/10 14:25:18 by lolq             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,10 +94,8 @@ char	*find_exec(char *cmd, char **envp)
 	return (NULL);
 }
 
-int	open_files(t_pipex *pipex, bool is_output)
+int	open_files(t_pipex *pipex, bool is_output, int fd)
 {
-	int	fd;
-
 	if (is_output)
 	{
 		if (pipex->here_doc == true)
