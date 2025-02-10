@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lolq <lolq@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 18:41:58 by lolq              #+#    #+#             */
-/*   Updated: 2025/02/10 11:20:31 by loribeir         ###   ########.fr       */
+/*   Updated: 2025/02/10 13:48:37 by lolq             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,13 +100,15 @@ int	open_files(t_pipex *pipex, bool is_output)
 
 	if (is_output)
 	{
-		fd = open(pipex->outfile, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+		if (pipex->here_doc)
+			fd = open(pipex->outfile, O_CREAT | O_WRONLY | O_APPEND, 0644);
+		else
+			fd = open(pipex->outfile, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 		if (fd < 0)
 		{
 			perror(pipex->outfile);
 			return (1);
 		}
-		pipex->out_fd = fd;
 	}
 	else
 	{
@@ -116,7 +118,7 @@ int	open_files(t_pipex *pipex, bool is_output)
 			perror(pipex->infile);
 			return (1);
 		}
-		pipex->in_fd = fd;
 	}
+	pipex->out_fd = fd;
 	return (0);
 }
