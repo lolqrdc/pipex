@@ -6,7 +6,7 @@
 /*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 09:36:19 by loribeir          #+#    #+#             */
-/*   Updated: 2025/02/10 10:07:26 by loribeir         ###   ########.fr       */
+/*   Updated: 2025/02/10 10:09:45 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,29 +79,4 @@ int	wait_children(t_pipex *pipex)
 		i++;
 	}
 	return (last_status);
-}
-
-void	close_all_pipes_except_current(t_pipex *pipex, int i)
-{
-	int	j;
-
-	j = 0;
-	while (j < pipex->count_cmd - 1)
-	{
-		if (j != i)
-			close(pipex->pipes_fd[j][1]);
-		if (j != i - 1)
-			close(pipex->pipes_fd[j][0]);
-		j++;
-	}
-	if (i != 0)
-	{
-		if (pipex->in_fd > 0)
-			close(pipex->in_fd);
-	}
-	if (i != pipex->count_cmd - 1)
-	{
-		if (pipex->out_fd > 0)
-			close(pipex->out_fd);
-	}
 }

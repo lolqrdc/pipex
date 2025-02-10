@@ -6,7 +6,7 @@
 /*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 18:41:58 by lolq              #+#    #+#             */
-/*   Updated: 2025/02/10 09:40:55 by loribeir         ###   ########.fr       */
+/*   Updated: 2025/02/10 10:26:37 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,11 @@ bool	ft_parse_args(t_pipex *pipex, int ac, char **av)
 		pipex->here_doc = true;
 		pipex->count_cmd--;
 		if (ac < 6)
-			return (ft_putstr_fd("Error: Not enough arguments\n", 2), 1);
+		{
+			ft_putstr_fd("Error: Not enough arguments\n", 2);
+			ft_cleanup(pipex);
+			exit(EXIT_FAILURE);
+		}
 		handle_here_doc(av[2]);
 		pipex->cmd = cmd_list(av, 3, ac - 1);
 	}
