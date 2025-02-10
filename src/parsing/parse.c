@@ -6,7 +6,7 @@
 /*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 18:41:58 by lolq              #+#    #+#             */
-/*   Updated: 2025/02/07 10:18:36 by loribeir         ###   ########.fr       */
+/*   Updated: 2025/02/10 09:40:55 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ bool	ft_parse_args(t_pipex *pipex, int ac, char **av)
 	return (true);
 }
 
-char	*search_path(char **paths, char *cmd)
+char	*get_path(char **paths, char *cmd)
 {
 	char	*full_path;
 	char	*tmp;
@@ -65,7 +65,7 @@ char	*search_path(char **paths, char *cmd)
 	return (NULL);
 }
 
-char	*find_executable(char *cmd, char **envp)
+char	*find_exec(char *cmd, char **envp)
 {
 	char	*exec_path;
 	char	**paths;
@@ -81,7 +81,7 @@ char	*find_executable(char *cmd, char **envp)
 			paths = ft_split(envp[i] + 5, ':');
 			if (!paths)
 				return (ft_putstr_fd("Error: PATH not found\n", 2), NULL);
-			exec_path = search_path(paths, cmd);
+			exec_path = get_path(paths, cmd);
 			free_tab(paths);
 			return (exec_path);
 		}
