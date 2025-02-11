@@ -3,21 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lolq <lolq@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 18:41:58 by lolq              #+#    #+#             */
-/*   Updated: 2025/02/10 14:25:18 by lolq             ###   ########.fr       */
+/*   Updated: 2025/02/11 09:41:39 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-/**
- * @brief Check if there is enough args and if the 1st arg is "here_doc".
- * The program will work differently according to the 1st arg.
- * Will seach for the commands in the PATH and store them in the structure.
- * Handle the files (infile & outfile).
- */
 bool	ft_parse_args(t_pipex *pipex, int ac, char **av)
 {
 	if (ft_strncmp(av[1], "here_doc", 8) == 0 && ft_strlen(av[1]) == 8)
@@ -100,12 +94,12 @@ int	open_files(t_pipex *pipex, bool is_output, int fd)
 	{
 		if (pipex->here_doc == true)
 			fd = open(pipex->outfile, O_CREAT | O_WRONLY | O_APPEND, 0644);
-		else 
+		else
 			fd = open(pipex->outfile, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 		if (fd < 0)
 		{
 			perror(pipex->outfile);
-			return (1);
+			return (-1);
 		}
 		pipex->out_fd = fd;
 	}
@@ -115,7 +109,7 @@ int	open_files(t_pipex *pipex, bool is_output, int fd)
 		if (fd < 0)
 		{
 			perror(pipex->infile);
-			return (1);
+			return (-1);
 		}
 		pipex->in_fd = fd;
 	}

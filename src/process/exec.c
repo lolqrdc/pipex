@@ -6,15 +6,11 @@
 /*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 07:46:38 by loribeir          #+#    #+#             */
-/*   Updated: 2025/02/10 11:20:52 by loribeir         ###   ########.fr       */
+/*   Updated: 2025/02/11 09:37:10 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-
-/**
- * @brief 
- */
 
 int	ft_execute(t_pipex *pipex, char **envp)
 {
@@ -93,7 +89,6 @@ int	**create_pipes(t_pipex *pipex)
 	return (pipes);
 }
 
-/* Close if error case or end of the program */
 void	close_all_pipes(t_pipex *pipex)
 {
 	int	i;

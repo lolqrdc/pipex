@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lolq <lolq@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 14:09:29 by loribeir          #+#    #+#             */
-/*   Updated: 2025/02/10 14:25:13 by lolq             ###   ########.fr       */
+/*   Updated: 2025/02/11 10:31:06 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ void	close_all_pipes(t_pipex *pipex);
 
 //
 void	first_child(t_pipex *pipex, int i);
+void	inter_child(t_pipex *pipex, int i);
 void	child_process(t_pipex *pipex, char **envp, int i, t_cmd *current);
 void	execute_cmd(t_pipex *pipex, t_cmd *cmd, char **envp, int i);
 int		wait_children(t_pipex *pipex);

@@ -6,17 +6,11 @@
 /*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 21:41:06 by lolq              #+#    #+#             */
-/*   Updated: 2025/02/10 08:11:05 by loribeir         ###   ########.fr       */
+/*   Updated: 2025/02/11 09:31:52 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-
-/**
- * @brief Initialize the structure t_pipex with default values.
- * The function cmd_list is called to create a linked list of commands.
- * Create_cmd and add_cmd are used to create and add a new command to the list.
- */
 
 int	ft_init_pipex(t_pipex *pipex, int ac, char **av)
 {

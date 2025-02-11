@@ -6,16 +6,11 @@
 /*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 07:32:29 by loribeir          #+#    #+#             */
-/*   Updated: 2025/02/07 08:05:57 by loribeir         ###   ########.fr       */
+/*   Updated: 2025/02/11 09:31:44 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-
-/**
- * @brief Useful functions to make pipex work (free).
- * free_tab, free_cmd, cleanup pipex.
- */
 
 void	free_tab(char **tab)
 {
