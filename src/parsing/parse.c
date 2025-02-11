@@ -6,7 +6,7 @@
 /*   By: loribeir <loribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 18:41:58 by lolq              #+#    #+#             */
-/*   Updated: 2025/02/11 09:41:39 by loribeir         ###   ########.fr       */
+/*   Updated: 2025/02/11 10:55:33 by loribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ int	open_files(t_pipex *pipex, bool is_output, int fd)
 		if (fd < 0)
 		{
 			perror(pipex->outfile);
+			close_all_pipes(pipex);
 			return (-1);
 		}
 		pipex->out_fd = fd;
